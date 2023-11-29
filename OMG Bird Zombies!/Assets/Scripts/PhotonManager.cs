@@ -21,6 +21,20 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.SendRate);
         PhotonNetwork.ConnectUsingSettings();
     }
+
+    // 포톤 서버에 접속 후 호출되는 콜백 함수
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("Connected to Master!");
+        Debug.Log($"PhotonNetwork.InLobby = {PhotonNetwork.InLobby}");
+        PhotonNetwork.JoinLobby();
+    }
+    // 로비에 접속 후 호출되는 콜백 함수
+    public override void OnJoinedLobby()
+    {
+        Debug.Log($"PhotonNetwork.InLobby = {PhotonNetwork.InLobby}");
+        PhotonNetwork.JoinRandomRoom();
+    }
     // 랜덤한 룸 입장이 실패했을 경우 호출되는 콜백 함수
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -50,9 +64,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             Debug.Log($"{player.Value.NickName} , {player.Value.ActorNumber}");
         }
         // 출현 위치 정보를 배열에 저장
-        Transform[] points = GameObject.Find("SpawnPointGroup").GetComponentsInChildren<Transform>();
-        int idx = Random.Range(1, points.Length);
-        // 네트워크상에 캐릭터 생성
-        PhotonNetwork.Instantiate("Player", points[idx].position, points[idx].rotation, 0);
+        Transform point = GameObject.Find("Spawn").transform;
+        PhotonNetwork.Instantiate("Player", point.position, point.rotation, 0);
     }
 }

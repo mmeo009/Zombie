@@ -25,17 +25,18 @@ public class Bullet : MonoBehaviour
             }
         }
         rb.velocity = transform.forward * moveSpeed;        // 시작할때 해당 물체 앞쪽 방향으로 MoveSpeed 만큼의 속도를 입력
+        Destroy(this.gameObject, 3.0f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-/*        if (other.tag == "Enemy" && !hasDamaged)
+        if (other.tag == "Enemy" && !hasDamaged)
         {
-            other.GetComponent<EnemyHealthController>().TakeDamage((int)damageAmount);
+            //other.GetComponent<EnemyHealthController>().TakeDamage((int)damageAmount);
             hasDamaged = true;
-        }*/
+            Destroy(gameObject);
+        }
 
-        Destroy(gameObject);                                // 충돌이 일어날 경우 파괴
     }
 
 
