@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 8550847629632738600}
   - component: {fileID: 8063609632020528828}
   - component: {fileID: 8051635685174548085}
+  - component: {fileID: 4488760361309861131}
   - component: {fileID: 6418811912526381933}
   - component: {fileID: -7589945067007385220}
   m_Layer: 0
@@ -154,14 +155,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePos: {fileID: 5698136008782198245}
-  moveSpeed: 5
-  rotationSpeed: 5
+  data: {fileID: 0}
+  rotationSpeed: 20
   pv: {fileID: 0}
   virtualCamera: {fileID: 0}
   bullet: {fileID: 0}
   rb: {fileID: 0}
   lookMe: 1
+  coolTime: 0
   damping: 10
+--- !u!114 &4488760361309861131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671141396579573097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e73a1ac8de5f84ab74774d0d2622e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  bulletCoolDown: 1
+  bulletSpeed: 7
+  bulletLevel: 1
+  bulletSize: 1
+  maxHealth: 30
+  currentHealth: 0
 --- !u!114 &6418811912526381933
 MonoBehaviour:
   m_ObjectHideFlags: 0

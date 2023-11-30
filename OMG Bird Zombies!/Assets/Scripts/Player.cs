@@ -10,7 +10,7 @@ using Photon.Pun.Demo.Asteroids;
 public class Player : MonoBehaviour, IPunObservable
 {
     public Transform firePos;
-    public float moveSpeed = 10.0f;
+    public PlayerData data;
     public float rotationSpeed = 20.0f;
     // PhotonView 컴포넌트 캐시처리를 위한 변수
     public PhotonView pv;
@@ -19,6 +19,7 @@ public class Player : MonoBehaviour, IPunObservable
     public GameObject bullet;
     public Rigidbody rb;
     public bool lookMe = true;
+    public float coolTime;
 
     // 수신된 위치와 회전값을 저장할 변수
     private UnityEngine.Vector3 receivePos;
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour, IPunObservable
     public float damping = 10.0f;
     void Start()
     {
-
+        data = GetComponent<PlayerData>();
         pv = GetComponent<PhotonView>();
         virtualCamera = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
         rb = GetComponent<Rigidbody>();
@@ -54,6 +55,10 @@ public class Player : MonoBehaviour, IPunObservable
             }
             // 회전 입력 처리
             RotateTowardsMouse();
+            if(coolTime > 0)
+            {
+                coolTime -= Time.deltaTime;
+            }
         }
         else
         {
@@ -75,9 +80,13 @@ public class Player : MonoBehaviour, IPunObservable
         {
             // 이동 입력 처리
             Move();
-            if (Input.GetMouseButtonDown(0))
+            if(Input.GetMouseButtonDown(0))
             {
                 pv.RPC("Fire", RpcTarget.All, null);
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                pv.RPC("FireCoolDown", RpcTarget.All, null);
             }
         }
     }
@@ -134,11 +143,20 @@ public class Player : MonoBehaviour, IPunObservable
             movement = transform.TransformDirection(movement);
             rb.drag = 0f;
             // Rigidbody에 힘을 가해 물리적으로 이동
-            rb.velocity = movement * moveSpeed;
+            rb.velocity = movement * data.moveSpeed;
         }
         else
         {
             rb.drag = 5f;
+        }
+    }
+    [PunRPC]
+    public void FireCoolDown()
+    {
+        if(coolTime <= 0)
+        {
+            pv.RPC("Fire", RpcTarget.All, null);
+            coolTime = data.bulletCoolDown;
         }
     }
     [PunRPC]
