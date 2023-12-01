@@ -180,7 +180,7 @@ MonoBehaviour:
   bulletCoolDown: 1
   bulletSpeed: 7
   bulletLevel: 1
-  bulletSize: 1
+  bulletSize: 0.3
   maxHealth: 30
   currentHealth: 0
 --- !u!114 &6418811912526381933

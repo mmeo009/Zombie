@@ -160,18 +160,31 @@ public class Player : MonoBehaviour, IPunObservable
         }
     }
     [PunRPC]
-    void Fire()
+    public void Fire()
     {
-        if(bullet == null)
+        int amount = data.bulletLevel;
+
+        if (bullet == null)
         {
             bullet = Resources.Load<GameObject>("Prefabs/Bullet");
-            Instantiate(bullet, firePos.position, firePos.rotation);
         }
-        else
-        {
-            Instantiate(bullet, firePos.position, firePos.rotation);
-        }    
 
+        for (int i = 0; i < amount; i++)
+        {
+            float axis;
+
+            if (i % 2 == 0)
+            {
+                axis = -(45f / amount) * i;
+            }
+            else
+            {
+                axis = (45f / amount) * i;
+            }
+
+            GameObject temp = Instantiate(bullet, firePos.position, firePos.rotation);
+            temp.GetComponent<Bullet>().BulletSetting(data.bulletSize, data.bulletSpeed, axis);
+        }
     }
 }
 
