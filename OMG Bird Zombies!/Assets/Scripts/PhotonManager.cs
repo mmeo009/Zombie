@@ -8,7 +8,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     // 게임의 버전
     private readonly string version = "1.0";
     // 유저의 닉네임
-    private string userId = "Zack";
+    private string userId = "None";
     void Awake()
     {
         // 마스터 클라이언트의 씬 자동 동기화 옵션

@@ -33,7 +33,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.tag == "Enemy" && !hasDamaged)
         {
-            //other.GetComponent<EnemyHealthController>().TakeDamage((int)damageAmount);
+            other.GetComponent<MonsterController>().GetDamage((int)damageAmount);
             hasDamaged = true;
             Destroy(gameObject);
         }
