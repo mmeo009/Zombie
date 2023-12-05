@@ -7,6 +7,7 @@ public class GameManager : GenericSingleton<GameManager>
 {
     public GameObject Monster_001;
     public GameObject Monster_002;
+    public GameObject[] items;
 
     public List<MonsterController> monsters = new List<MonsterController>();
     public List<MonsterController> sleepingMonsters = new List<MonsterController>();
@@ -20,6 +21,7 @@ public class GameManager : GenericSingleton<GameManager>
         Transform[] points = GameObject.Find("SpawnPointGroup").GetComponentsInChildren<Transform>();
         Monster_001 = Resources.Load<GameObject>("Prefabs/Monster_001");
         Monster_002 = Resources.Load<GameObject>("Prefabs/Monster_002");
+        items = Resources.LoadAll<GameObject>("Prefabs/Item");
     }
     public void Start()
     {
@@ -63,6 +65,9 @@ public class GameManager : GenericSingleton<GameManager>
     }
     public void MonsterDie(MonsterController mon)
     {
+        int itemNum = Random.Range(0, items.Length);
+        GameObject temp = Instantiate(items[itemNum]);
+        temp.transform.SetPositionAndRotation(new Vector3(mon.transform.position.x, 0.5f, mon.transform.position.z), mon.transform.rotation);
         mon.gameObject.SetActive(false);
         sleepingMonsters.Add(mon);
     }

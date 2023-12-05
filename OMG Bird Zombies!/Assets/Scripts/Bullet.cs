@@ -25,8 +25,8 @@ public class Bullet : MonoBehaviour
         moveSpeed = speed;
 
         Quaternion rot = Quaternion.AngleAxis(axis, Vector3.up);
-
-        Vector3 go = rot * transform.forward;
+        Vector3 go;
+        go = rot * transform.forward;
         rb.velocity = go * moveSpeed;
     }
     private void OnTriggerEnter(Collider other)
@@ -37,8 +37,5 @@ public class Bullet : MonoBehaviour
             hasDamaged = true;
             Destroy(gameObject);
         }
-
     }
-
-
 }

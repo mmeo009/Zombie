@@ -169,18 +169,19 @@ public class Player : MonoBehaviour, IPunObservable
             bullet = Resources.Load<GameObject>("Prefabs/Bullet");
         }
 
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        float startingAngle = 0f;
+        float angleIncrement = (amount == 1) ? 0f : 45f / (amount - 1);
+        UnityEngine.Quaternion rotation = firePos.rotation;
+
         for (int i = 0; i < amount; i++)
         {
-            float axis;
-
-            if (i % 2 == 0)
-            {
-                axis = -(45f / amount) * i;
-            }
-            else
-            {
-                axis = (45f / amount) * i;
-            }
+            float axis = (amount == 1) ? 0f : startingAngle + angleIncrement * i - 22.5f;
+            UnityEngine.Quaternion bulletRotation = rotation * UnityEngine.Quaternion.Euler(0f, 0f, axis);
 
             GameObject temp = Instantiate(bullet, firePos.position, firePos.rotation);
             temp.GetComponent<Bullet>().BulletSetting(data.bulletSize, data.bulletSpeed, axis);
